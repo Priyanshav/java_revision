@@ -29,18 +29,18 @@ class threadPractice{
     // }
 
     // implements Runnable
-    static class A implements Runnable{
-        public void run(){
-            for(int i = 0; i < 5; i++)
-                System.out.println("Hi");
-        }
-    }
-    static class B implements Runnable{
-        public void run(){
-            for(int i = 0; i < 5; i++)
-                System.out.println("Hello");
-        }
-    }
+    // static class A implements Runnable{
+    //     public void run(){
+    //         for(int i = 0; i < 5; i++)
+    //             System.out.println("Hi");
+    //     }
+    // }
+    // static class B implements Runnable{
+    //     public void run(){
+    //         for(int i = 0; i < 5; i++)
+    //             System.out.println("Hello");
+    //     }
+    // }
 
     public static void main(String[] Args){
         // A obj1 = new A();
