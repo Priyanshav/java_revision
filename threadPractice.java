@@ -1,48 +1,60 @@
 class threadPractice{
 
-    // extends Thread
-    // static class A extends Thread{
-    //     public void run(){
-    //         for(int i = 0; i < 100; i++){
-    //             System.out.println("Hii");
-    //                 try {
-    //                     Thread.sleep(10);
-    //                 } catch (InterruptedException e) {
-    //                     e.printStackTrace();
-    //                 }
+    // Race condition
+    static int count;
+    static class Count{
+        public synchronized static void increment(){
+            count++;
+        }
+    }
+
+    /*
+    extends Thread
+    static class A extends Thread{
+        public void run(){
+            for(int i = 0; i < 100; i++){
+                System.out.println("Hii");
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 
-    //         }
-    //     }
-    // }
+            }
+        }
+    }
 
-    // static class B extends Thread{
-    //     public void run(){
-    //         for(int i = 0; i < 100; i++){
-    //             System.out.println("Hello");
-    //             try {
-    //                     Thread.sleep(10);
-    //                 } catch (InterruptedException e) {
-    //                     e.printStackTrace();
-    //                 }
-    //         }
-    //     }
-    // }
+    static class B extends Thread{
+        public void run(){
+            for(int i = 0; i < 100; i++){
+                System.out.println("Hello");
+                try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+    }
+    */
 
-    // implements Runnable
-    // static class A implements Runnable{
-    //     public void run(){
-    //         for(int i = 0; i < 5; i++)
-    //             System.out.println("Hi");
-    //     }
-    // }
-    // static class B implements Runnable{
-    //     public void run(){
-    //         for(int i = 0; i < 5; i++)
-    //             System.out.println("Hello");
-    //     }
-    // }
+    /* 
+    implements Runnable
+    static class A implements Runnable{
+        public void run(){
+            for(int i = 0; i < 5; i++)
+                System.out.println("Hi");
+        }
+    }
+    static class B implements Runnable{
+        public void run(){
+            for(int i = 0; i < 5; i++)
+                System.out.println("Hello");
+        }
+    }
+    */
 
-    public static void main(String[] Args){
+    public static void main(String[] Args) throws InterruptedException{
         // A obj1 = new A();
         // B obj2 = new B();
         
@@ -65,7 +77,8 @@ class threadPractice{
         // Runnable obj1 = new A();
         // Runnable obj2 = new B();
 
-        // Creating anonymous inner classes of functional interface runnable with lambda expressions
+        /*
+        Creating anonymous inner classes of functional interface runnable with lambda expressions
         Runnable obj1 = () -> {
                 for(int i = 0; i < 5; i++){
                     System.out.println("Hii");
@@ -89,11 +102,28 @@ class threadPractice{
                 }
             }
         };
+        */
 
+
+        Runnable obj1 = () -> {
+                for(int i = 0; i < 10000; i++){
+                    Count.increment();
+                }
+        };
+
+        Runnable obj2 = () -> {
+            for(int i = 0; i < 10000; i++){
+                Count.increment();
+            }
+        };
         Thread t1 = new Thread(obj1);
         Thread t2 = new Thread(obj2);
 
         t1.start();
         t2.start();
+
+        t1.join();
+        t2.join();
+        System.out.println(count);
     }
 }
